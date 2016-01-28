@@ -1,54 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Golang Training</title>
 
-<!-- Bootstrap -->
-<link href="/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/font-awesome.min.css">
-<link rel="stylesheet" href="/css/animate.css">
-<link href="/css/prettyPhoto.css" rel="stylesheet">
-<link href="/css/style.css" rel="stylesheet" />
+{{template "_head.html" .Title}}
 
-</head>
 <body>
-	<header>
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="navigation">
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed"
-							data-toggle="collapse" data-target=".navbar-collapse.collapse">
-							<span class="sr-only">Toggle navigation</span> <span
-								class="icon-bar"></span> <span class="icon-bar"></span> <span
-								class="icon-bar"></span>
-						</button>
-						<div class="navbar-brand">
-							<a href="index"><h1>
-									<span>GO</span>LANG
-								</h1></a>
-						</div>
-					</div>
-
-					<div class="navbar-collapse collapse">
-						<div class="menu">
-							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation"><a href="index">Home</a></li>
-								<li role="presentation"><a href="about" class="active">About Me</a></li>
-<!-- 							<li role="presentation"><a href="services">Services</a></li>
-								<li role="presentation"><a href="portfolio">Portfolio</a></li>
-								<li role="presentation"><a href="blog">Blog</a></li>
-								<li role="presentation"><a href="contact">Contact</a></li> -->
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</nav>
-	</header>
+	
+	{{template "_header.html" .Active}}
 
 	<div id="breadcrumb">
 		<div class="container">
@@ -65,19 +22,9 @@
 			<hr>
 			<div class="col-md-7 wow fadeInDown" data-wow-duration="1000ms"
 				data-wow-delay="300ms">
-				<img src="/images/7.jpg" class="img-responsive">
-				<h4>First solve the problem, then write the code</h4>
-				<p>As a software developer I want to work with problems that
-					will allow me grow as an engineer and also learn how to become a
-					successful leader in today’s tech world. Computer Science is no
-					longer a single-player game and I am well aware that in order to
-					succeed with a project, collaboration with a group of individuals
-					who share the same passion and energy as I do for the field is
-					essential. I look forward to meeting colleagues that I can count on
-					for help and mentorship. I want to write code for a purpose by
-					striving to develop efficient and relevant programs to best help
-					clients. I love what I do and I will continue to better myself in
-					my work.</p>
+				<img src="/images/{{.Image}}.jpg" class="img-responsive">
+				<h4>{{.Quote}}</h4>
+				<p>{{.Summary}}</p>
 			</div>
 			
 			<div class="col-md-5 wow fadeInDown" data-wow-duration="1000ms"
@@ -85,68 +32,18 @@
 				<div class="skill">
 					<h2 style="font-weight:bold;">My Skills</h2>
 					<div>
-						<h4>JAVA</h4>
-						<h4>Spring MVC</h4>
-						<h4>Maven</h4>
-						<h4>HTML</h4>
-						<h4>JavaScript</h4>
-						<h4>CSS</h4>
-						<h4>Web Services</h4>
-						<h4>Docker</h4>
-						<h4>GOLANG</h4>
-						<h4>GIT</h4>
-						<h4>SQL</h4>
+						{{range .Skills}}
+							<h4>{{.Title}}</h4>
+						{{end}}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<footer>
-		<div class="footer">
-			<div class="container">
-				<div class="social-icon">
-					<div class="col-md-4">
-						<ul class="social-network">
-							<li><a href="http://www.facebook.com/jonathan.hdez92"
-								class="fb tool-tip" title="Facebook"><i
-									class="fa fa-facebook"></i></a></li>
-							<li><a href="https://www.linkedin.com/in/jonathanhdez"
-								class="linkedin tool-tip" title="Linkedin"><i
-									class="fa fa-linkedin"></i></a></li>
-							<li><a href="https://github.com/Ikanant"
-								class="github tool-tip" title="Github"><i
-									class="fa fa-github"></i></a></li>
-							<li><a
-								href="https://plus.google.com/u/0/113895480948271513143/"
-								class="gplus tool-tip" title="Google Plus"><i
-									class="fa fa-google-plus"></i></a></li>
-							<li><a
-								href="https://www.youtube.com/channel/UCjOyyqrpUKXIfzUTjVSmvmg"
-								class="ytube tool-tip" title="You Tube"><i
-									class="fa fa-youtube-play"></i></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+	{{template "_footer.html"}}
 
-			<div class="pull-right">
-				<a href="/#home" class="scrollup"><i
-					class="fa fa-angle-up fa-3x"></i></a>
-			</div>
-		</div>
-	</footer>
-
-
-
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="/js/jquery-2.1.1.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="/js/bootstrap.min.js"></script>
-	<script src="/js/jquery.prettyPhoto.js"></script>
-	<script src="/js/jquery.isotope.min.js"></script>
-	<script src="/js/wow.min.js"></script>
-	<script src="/js/functions.js"></script>
+	{{template "_scripts.html"}}
 
 </body>
 </html>
