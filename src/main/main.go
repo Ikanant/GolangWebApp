@@ -1,7 +1,7 @@
 package main
 
 import (
-	"controllers"
+	"controllers"	// Will allow us to drop into the main function and add a call to the controllers register function
 	"net/http"
 	"os"            // Access to file system opeartion like reading the templates
 	"text/template" // Gives the templating functionallity we need
