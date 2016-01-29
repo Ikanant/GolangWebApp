@@ -18,10 +18,14 @@ func Register(templates *template.Template) {
 	hc.template = templates.Lookup("home.html")
 	http.HandleFunc("/home", hc.get)
 	
+	cc := new(categoriesController)
+	cc.template = templates.Lookup("categories.html")
+	http.HandleFunc("/categories", cc.get)
+	
 	ac := new(aboutController)
 	ac.template = templates.Lookup("about.html")
 	http.HandleFunc("/about", ac.get)
-
+	
 	http.HandleFunc("/images/", serveResource)
 	http.HandleFunc("/css/", serveResource)
 	http.HandleFunc("/fonts/", serveResource)
