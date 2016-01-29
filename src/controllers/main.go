@@ -31,6 +31,10 @@ func Register(templates *template.Template) {
 	categoryController.template = templates.Lookup("products.html")
 	router.HandleFunc("/categories/{id}", categoryController.get)
 	
+	pc := new(productController)
+	pc.template = templates.Lookup("product.html")
+	router.HandleFunc("/product/{id}", pc.get)
+	
 	ac := new(aboutController)
 	ac.template = templates.Lookup("about.html")
 	router.HandleFunc("/about", ac.get)

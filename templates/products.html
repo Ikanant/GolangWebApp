@@ -22,11 +22,13 @@
 			<hr>
 			<div class="text-center">
 				{{range .Products}}
-					<div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+					<a href="/product/{{.Id}}">
+					<div class="col-md-4 wow fadeInDown" data-wow-duration="800ms" data-wow-delay="200ms">
 						<img src="/images/{{.ImageUrl}}" alt="">
-						<h4>{{.Title}}</h4>
+						<h4 >{{.Name}}</h4>
 						<p>{{.Description}}</p>
 					</div>
+					</a>
 				{{end}}
 			</div>
 		</div>

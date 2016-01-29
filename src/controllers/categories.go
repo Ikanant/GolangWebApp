@@ -30,9 +30,9 @@ func (this *categoryController) get(w http.ResponseWriter, req *http.Request) {
 	idRaw := vars["id"]
 	id, err := strconv.Atoi(idRaw)
 
-	if err == nil {
+	if err == nil && id < 4{
 		vm := viewmodels.GetProducts(id)
-
+		
 		w.Header().Add("Content-Type", "text/html")
 		this.template.Execute(w, vm)
 	} else {
