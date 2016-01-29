@@ -7,24 +7,36 @@ import (
 	"os"            // Access to file system opeartion like reading the templates
 	"strings"       // We will use it to compare the requested file extensions
 	"text/template" // Gives the templating functionallity we need
+	"github.com/gorilla/mux"
 )
 
 // Will serve as the point where the controller layer configures itself and prepares to handle requests
 // Receive the template CACHE that we build in the main package
 // We will grab the three http functions form the main package
 func Register(templates *template.Template) {
-	// Local variable as a pointer to a HOME controller
+	
+	// Now that we have Gorilla Mux, we need to create a new Router that will take the responsability away from us
+	router := mux.NewRouter()
+	//Gorilla Mux exposes an Interface that is very similar to the net/http package. So we just need to replace the http with router:
+
 	hc := new(homeController)
 	hc.template = templates.Lookup("home.html")
-	http.HandleFunc("/home", hc.get)
+	router.HandleFunc("/home", hc.get)
 	
 	cc := new(categoriesController)
 	cc.template = templates.Lookup("categories.html")
-	http.HandleFunc("/categories", cc.get)
+	router.HandleFunc("/categories", cc.get)
+	
+	categoryController := new(categoryController)
+	categoryController.template = templates.Lookup("products.html")
+	router.HandleFunc("/categories/{id}", categoryController.get)
 	
 	ac := new(aboutController)
 	ac.template = templates.Lookup("about.html")
-	http.HandleFunc("/about", ac.get)
+	router.HandleFunc("/about", ac.get)
+	
+	//Finally, we do need to use the HTTP package to set the router to listen for requests
+	http.Handle("/", router)
 	
 	http.HandleFunc("/images/", serveResource)
 	http.HandleFunc("/css/", serveResource)

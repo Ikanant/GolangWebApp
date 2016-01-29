@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{template "_head.html" .Title}}
+
+<body>
+
+	{{template "_header.html" .Active}}
+
+	<div id="breadcrumb">
+		<div class="container">
+			<div class="breadcrumb">
+				<li><a href="/categories">Categories</a></li>
+				<li>{{.Title}}</li>
+			</div>
+		</div>
+	</div>
+
+	<div class="aboutus">
+		<div class="container">
+			<h3>{{.Title}} on Sale:</h3>
+			<hr>
+			<div class="text-center">
+				{{range .Products}}
+					<div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+						<img src="/images/{{.ImageUrl}}" alt="">
+						<h4>{{.Title}}</h4>
+						<p>{{.Description}}</p>
+					</div>
+				{{end}}
+			</div>
+		</div>
+	</div>
+
+	{{template "_footer.html"}} {{template "_scripts.html"}}
+
+</body>
+</html>
