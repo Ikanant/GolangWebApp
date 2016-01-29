@@ -13,35 +13,14 @@ import (
 // Receive the template CACHE that we build in the main package
 // We will grab the three http functions form the main package
 func Register(templates *template.Template) {
-
-	/*
-		http.HandleFunc("/",
-			func(w http.ResponseWriter, req *http.Request) {
-
-				requestFile := req.URL.Path[1:]
-				template := templates.Lookup(requestFile + ".html")
-
-				var context interface{} = nil
-
-				switch requestFile {
-				case "home":
-					context = viewmodels.GetHome()
-				case "about":
-					context = viewmodels.GetAbout()
-				}
-
-				if template != nil {
-					template.Execute(w, context)
-				} else {
-					w.WriteHeader(404)
-				}
-			})
-	*/
-	
 	// Local variable as a pointer to a HOME controller
 	hc := new(homeController)
 	hc.template = templates.Lookup("home.html")
 	http.HandleFunc("/home", hc.get)
+	
+	ac := new(aboutController)
+	ac.template = templates.Lookup("about.html")
+	http.HandleFunc("/about", ac.get)
 
 	http.HandleFunc("/images/", serveResource)
 	http.HandleFunc("/css/", serveResource)

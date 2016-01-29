@@ -6,6 +6,7 @@ import (
 	"net/http"      // Will allow us to work with the response writer and request object
 	"text/template" // Will enable us to work with the VIEWs templates
 	"viewmodels"    // Get the View model that provide the HOME page with its data
+	"controllers/util"
 )
 
 /*
@@ -25,11 +26,14 @@ func (this *homeController) get(w http.ResponseWriter, req *http.Request) {
 
 	// Tell the browser that we will be sending HTML by setting the content-type header on the response
 	w.Header().Add("Content-Type", "text/html")
+	
+	responseWriter := util.GetResponseWriter(w, req)
+	defer responseWriter.Close()
 
 	/* We execute the controllers template field.
 	This small/lite controlled funciton is important
 	Due the controllers position in the MVC pattern it is aware of both of the other layer. This makes it easy to use the
 	controller to handle things that really are the responsability of another portion of the application */
-	this.template.Execute(w, vm)
+	this.template.Execute(responseWriter, vm)
 
 }
