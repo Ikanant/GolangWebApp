@@ -12,7 +12,7 @@ type About struct {
 }
 
 type Skill struct {
-	Title string
+	Skill string
 }
 
 func GetAbout() About {
@@ -33,22 +33,6 @@ func GetAbout() About {
 					clients. I love what I do and I will continue to better myself in
 					my work.`,
 	}
-
-	skillSlice := []Skill{
-		Skill{"Java"},
-		Skill{"Spring MVC"},
-		Skill{"Maven"},
-		Skill{"HTML"},
-		Skill{"JavaScript"},
-		Skill{"CSS"},
-		Skill{"Web Services"},
-		Skill{"Docker"},
-		Skill{"Golang"},
-		Skill{"Git"},
-		Skill{"Sql"},
-	}
-
-	result.Skills = skillSlice
 
 	return result
 }

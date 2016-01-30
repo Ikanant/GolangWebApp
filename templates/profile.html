@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{template "_head.html" .Title}}
+
+<body>
+	{{template "_header.html" .Active}}
+
+	<div id="breadcrumb">
+		<div class="container">
+			<div class="breadcrumb">
+				<li><a>Products</a></li>
+				<li>Asas</li>
+			</div>
+		</div>
+	</div>
+
+	<form action="/profile" method="post" class="row services">
+		<div class="col-sm-8 col-sm-offset-2">
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-2">
+					<h3>Contact Information</h3>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-sm-5 col-sm-offset-2">
+					<input type="text" name="firstName" autocomplete="off" class="form-control search_box"
+						placeholder="First Name" value={{.User.First}}>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-sm-5 col-sm-offset-2">
+					<input type="text" name="lastName" autocomplete="off" class="form-control search_box"
+						placeholder="Last Name" value={{.User.Last}}>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-sm-5 col-sm-offset-2">
+					<input type="text" name="email" autocomplete="off" class="form-control search_box"
+						placeholder="Email" value={{.User.Email}}>
+				</div>
+			</div>
+			
+			<br>
+			<div class="row">
+				<div class="col-sm-5 col-sm-offset-2">
+					<button class="btn btn-primary btn-md" type="submit">Save</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	{{template "_footer.html"}} {{template "_scripts.html"}}
+
+</body>
+</html>

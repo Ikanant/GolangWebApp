@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"text/template"
 	"viewmodels"
+	"controllers/util"
 )
 
 type productController struct {
@@ -22,7 +23,10 @@ func (this *productController) get(w http.ResponseWriter, req *http.Request) {
 	if err == nil {
 		vm := viewmodels.GetProduct(id)
 		w.Header().Add("Content-Type", "text/html")
-		this.template.Execute(w, vm)
+		
+		responseWriter := util.GetResponseWriter(w, req)
+		defer responseWriter.Close()
+		this.template.Execute(responseWriter, vm)
 	} else {
 		w.WriteHeader(404)
 	}

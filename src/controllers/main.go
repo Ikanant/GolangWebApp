@@ -39,6 +39,10 @@ func Register(templates *template.Template) {
 	ac.template = templates.Lookup("about.html")
 	router.HandleFunc("/about", ac.get)
 	
+	profileController := new(profileController)
+	profileController.template = templates.Lookup("profile.html")
+	router.HandleFunc("/profile", profileController.handle)
+	
 	//Finally, we do need to use the HTTP package to set the router to listen for requests
 	http.Handle("/", router)
 	
