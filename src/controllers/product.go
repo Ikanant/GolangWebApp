@@ -1,36 +1,42 @@
 package controllers
 
 import (
+	"controllers/util"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 	"text/template"
 	"viewmodels"
-	"controllers/util"
 )
 
 type productController struct {
-	template *template.Template
+	template         *template.Template
 	purchaseTemplate *template.Template
 }
 
 func (this *productController) get(w http.ResponseWriter, req *http.Request) {
-	vars := mux.Vars(req)
+	_, er := req.Cookie("goSessionId")
 
-	idRaw := vars["id"]
+	if er == nil {
+		vars := mux.Vars(req)
 
-	id, err := strconv.Atoi(idRaw)
+		idRaw := vars["id"]
 
-	if err == nil {
-		vm := viewmodels.GetProduct(id)
-		w.Header().Add("Content-Type", "text/html")
-		
-		responseWriter := util.GetResponseWriter(w, req)
-		defer responseWriter.Close()
-		this.template.Execute(responseWriter, vm)
+		id, err := strconv.Atoi(idRaw)
+
+		if err == nil {
+			vm := viewmodels.GetProduct(id)
+			vm.LoggedIn = true
+			w.Header().Add("Content-Type", "text/html")
+
+			responseWriter := util.GetResponseWriter(w, req)
+			defer responseWriter.Close()
+			this.template.Execute(responseWriter, vm)
+		} else {
+			w.WriteHeader(404)
+		}
 	} else {
-		w.WriteHeader(404)
+		http.Redirect(w, req, "/home", http.StatusFound)
 	}
+
 }
-
-

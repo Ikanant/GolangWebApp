@@ -29,7 +29,6 @@ func Register(templates *template.Template) {
 	
 	cc := new(categoriesController)
 	cc.template = templates.Lookup("categories.html")
-	cc.loginTemplate = templates.Lookup("login.html")
 	router.HandleFunc("/categories", cc.get)
 	
 	categoryController := new(categoryController)

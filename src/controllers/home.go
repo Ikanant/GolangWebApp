@@ -93,6 +93,7 @@ func (this *homeController) login(w http.ResponseWriter, req *http.Request) {
 				vmh := viewmodels.GetHome()
 
 				vmh.LoggedIn = true
+				vmh.LoggedName = member.FirstName()
 
 				this.template.Execute(responseWriter, vmh)
 			} else {

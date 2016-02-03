@@ -101,6 +101,7 @@ type ProductVM struct {
 	Active  string
 	Type	int
 	Product Product
+	LoggedIn bool
 }
 
 func GetProduct(id int) ProductVM {
@@ -132,6 +133,7 @@ func GetProduct(id int) ProductVM {
 	result.Title = "Purchase: " + product.Name
 	result.Type = typ
 	result.Product = product
+	result.LoggedIn = false
 	
 	return result
 }

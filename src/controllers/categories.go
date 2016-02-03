@@ -13,7 +13,6 @@ import (
 
 type categoriesController struct {
 	template      *template.Template
-	loginTemplate *template.Template
 }
 
 func (this *categoriesController) get(w http.ResponseWriter, req *http.Request) {
@@ -30,6 +29,7 @@ func (this *categoriesController) get(w http.ResponseWriter, req *http.Request) 
 		vmc := viewmodels.GetCategory()
 		vmc.Categories = categoriesVM
 		vmc.LoggedIn = true
+		
 		w.Header().Add("Content-Type", "text/html")
 		this.template.Execute(w, vmc)
 	
@@ -43,21 +43,29 @@ type categoryController struct {
 }
 
 func (this *categoryController) get(w http.ResponseWriter, req *http.Request) {
-	// This expects a map for the parameters caught by the current request
-	vars := mux.Vars(req)
+	
+	_, er := req.Cookie("goSessionId")
 
-	idRaw := vars["id"]
-	id, err := strconv.Atoi(idRaw)
+	if er == nil {
+		// This expects a map for the parameters caught by the current request
+		vars := mux.Vars(req)
+	
+		idRaw := vars["id"]
+		id, err := strconv.Atoi(idRaw)
+	
+		if err == nil && id < 4 {
+			vm := viewmodels.GetProducts(id)
+			vm.LoggedIn = true
 
-	if err == nil && id < 4 {
-		vm := viewmodels.GetProducts(id)
-
-		w.Header().Add("Content-Type", "text/html")
-
-		responseWriter := util.GetResponseWriter(w, req)
-		defer responseWriter.Close()
-		this.template.Execute(responseWriter, vm)
-	} else {
-		w.WriteHeader(404)
-	}
+			w.Header().Add("Content-Type", "text/html")
+	
+			responseWriter := util.GetResponseWriter(w, req)
+			defer responseWriter.Close()
+			this.template.Execute(responseWriter, vm)
+		} else {
+			w.WriteHeader(404)
+		}
+		} else {
+			http.Redirect(w, req, "/home", http.StatusFound)
+		}
 }
