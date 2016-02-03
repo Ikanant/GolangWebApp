@@ -4,7 +4,7 @@
 {{template "_head.html" .Title}}
 
 <body>
-	{{template "_header.html" .Active}}
+	{{template "_header.html" .}}
 
 	<div id="breadcrumb">
 		<div class="container">
@@ -22,6 +22,7 @@
 					<h3>Products on sale:</h3>
 				{{end}}
 				
+				<a href="/categories/{{.Id}}">
 				<div class="col-md-6">
 					<img src="/images/{{.ImageUrl}}" class="img-responsive">
 				</div>
@@ -34,9 +35,8 @@
 						<ul>
 							<li>
 								<div class="media-right">
-									<a href="/categories/{{.Id}}">
-										<h4 class="media-heading">{{.Title}}:</h4>
-									</a>
+									<h4 class="media-heading">{{.Title}}:</h4>
+									
 									{{range .SampleProducts}}
 										<p style="font-weight: bold">{{.}}</p>
 									{{end}}
@@ -45,6 +45,7 @@
 						</ul>
 					</div>
 				</div>
+				</a>
 			</div>
 		</div>
 	{{end}}

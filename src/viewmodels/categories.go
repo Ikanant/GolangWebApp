@@ -6,6 +6,8 @@ type Categories struct {
 	Title      string
 	Active     string
 	Categories []Category
+	LoggedIn bool
+	LoggedName string
 }
 
 type Category struct {
@@ -17,7 +19,7 @@ type Category struct {
 
 func GetCategory() Categories {
 	result := Categories{
-		Title:  "Category:",
+		Title:  "Categories page",
 		Active: "category",
 	}
 	

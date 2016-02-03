@@ -9,6 +9,8 @@ type About struct {
 	Summary string
 	Quote string
 	Image string
+	LoggedIn bool
+	LoggedName string
 }
 
 type Skill struct {
@@ -33,6 +35,8 @@ func GetAbout() About {
 					clients. I love what I do and I will continue to better myself in
 					my work.`,
 	}
+	
+	result.LoggedIn = false
 
 	return result
 }

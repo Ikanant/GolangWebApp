@@ -19,9 +19,18 @@
 				<div class="navbar-collapse collapse">
 					<div class="menu">
 						<ul class="nav nav-tabs" role="tablist">
-							<li role="presentation"><a href="/home" {{if eq . "home"}} class="active" {{end}}>Home</a></li>
-							<li role="presentation"><a href="/categories" {{if eq . "category"}} class="active" {{end}}>Products</a></li>
-							<li role="presentation"><a href="/about" {{if eq . "about"}} class="active" {{end}}>About Me</a></li>					
+							<li role="presentation"><a href="/home" {{if eq .Active "home"}} class="active" {{end}}>Home</a></li>
+							<li role="presentation"><a href="/categories" {{if eq .Active "category"}} class="active" {{end}}>Products</a></li>
+							<li role="presentation"><a href="/about" {{if eq .Active "about"}} class="active" {{end}}>About Me</a></li>
+							
+							{{if .LoggedIn}}
+								<li role="presentation"><a href="/profile" {{if eq .Active "profile"}} class="active" {{end}}>Profile</a></li>
+								<li role="presentation"><a href="/logout">Log out</a></li>								
+							{{else}}
+								<li role="presentation"><a href="/login" {{if eq .Active "login"}} class="active" {{end}}>Login</a></li>
+							{{end}}
+							
+												
 						</ul>
 					</div>
 				</div>

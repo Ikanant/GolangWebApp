@@ -6,12 +6,14 @@ type Products struct {
 	Title    string
 	Active   string
 	Products []Product
+	LoggedIn bool
+	LoggedName string
 }
 
 func GetProducts(id int) Products {
 	var result Products
 
-	result.Active = "shop"
+	result.Active = "category"
 	var shopName string
 
 	switch id {
@@ -35,6 +37,7 @@ func GetProducts(id int) Products {
 		result.Products = getGamesProductList()
 	}
 
+	result.LoggedIn = false
 	return result
 }
 
@@ -125,7 +128,7 @@ func GetProduct(id int) ProductVM {
 		}
 	}
 
-	result.Active = "shop"
+	result.Active = "category"
 	result.Title = "Purchase: " + product.Name
 	result.Type = typ
 	result.Product = product

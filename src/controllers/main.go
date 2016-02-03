@@ -1,6 +1,5 @@
 package controllers
 
-// We will need all of the imports form the old main.go file
 import (
 	"bufio" // Allows us to buffer the output
 	"net/http"
@@ -21,10 +20,16 @@ func Register(templates *template.Template) {
 
 	hc := new(homeController)
 	hc.template = templates.Lookup("home.html")
+	hc.loginTemplate = templates.Lookup("login.html")
+	hc.signupTemplate = templates.Lookup("signup.html")
 	router.HandleFunc("/home", hc.get)
+	router.HandleFunc("/login", hc.login)
+	router.HandleFunc("/signup", hc.signup)
+	router.HandleFunc("/logout", hc.logout)
 	
 	cc := new(categoriesController)
 	cc.template = templates.Lookup("categories.html")
+	cc.loginTemplate = templates.Lookup("login.html")
 	router.HandleFunc("/categories", cc.get)
 	
 	categoryController := new(categoryController)
@@ -39,9 +44,7 @@ func Register(templates *template.Template) {
 	ac.template = templates.Lookup("about.html")
 	router.HandleFunc("/about", ac.get)
 	
-	profileController := new(profileController)
-	profileController.template = templates.Lookup("profile.html")
-	router.HandleFunc("/profile", profileController.handle)
+	
 	
 	//Finally, we do need to use the HTTP package to set the router to listen for requests
 	http.Handle("/", router)

@@ -5,7 +5,7 @@
 
 <body>
 	
-	{{template "_header.html" .Active}}
+	{{template "_header.html" .}}
 	
 	<section id="main-slider" class="no-margin">
 		<div class="carousel slide">
@@ -19,7 +19,14 @@
 									<h2 class="animation animated-item-1">
 										Learning <span>GO</span>
 									</h2>
-									<p class="animation animated-item-2">By Jonathan Hernandez</p>
+									
+									{{if .LoggedIn}}
+										<p class="animation animated-item-2">Welcome {{.LoggedName}}</p>
+									{{else}}
+										<p class="animation animated-item-2">By Jonathan Hernandez</p>	
+									{{end}}
+
+									
 								</div>
 							</div>
 

@@ -11,6 +11,7 @@ import (
 
 type productController struct {
 	template *template.Template
+	purchaseTemplate *template.Template
 }
 
 func (this *productController) get(w http.ResponseWriter, req *http.Request) {
@@ -31,3 +32,5 @@ func (this *productController) get(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(404)
 	}
 }
+
+

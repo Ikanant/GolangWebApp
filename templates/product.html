@@ -5,7 +5,7 @@
 
 <body>
 
-	{{template "_header.html" .Active}}
+	{{template "_header.html" .}}
 
 	<div id="breadcrumb">
 		<div class="container">
@@ -16,32 +16,33 @@
 		</div>
 	</div>
 
-	<div class="services wow fadeInDown" data-wow-duration="800ms" data-wow-delay="200ms">
-			<div class="container">
-			
+	<div class="services wow fadeInDown" data-wow-duration="800ms"
+		data-wow-delay="200ms">
+		<div class="container">
+
+			<form action="" method="POST" class="row services">
 				<div class="col-md-2"></div>
 				
 				<div class="col-md-4">
 					<img src="/images/{{.Product.ImageUrl}}" class="img-responsive">
+					<br>
 				</div>
-				
-				<br>
-	
 				<div class="col-md-4">
 					<div class="media">
-						<ul>
-							<li>
-								<div class="media-right">
-									<h4 class="media-heading">{{.Product.Name}}</h4>
-									<p style="font-weight: bold">${{.Product.Price}}</p>
-									<p>{{.Product.Description}}</p>
-								</div>
-							</li>
-						</ul>
+
+						<div class="media-right">
+							<h4 class="media-heading">{{.Product.Name}}</h4>
+							<p style="font-weight: bold">${{.Product.Price}}</p>
+							<p>{{.Product.Description}}</p>
+							<button class="btn btn-primary btn-md" type="submit">Order</button>
+						</div>
+
+
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
+	</div>
 
 	{{template "_footer.html"}} {{template "_scripts.html"}}
 

@@ -28,7 +28,14 @@ func (this *aboutController) get(w http.ResponseWriter, req *http.Request) {
 	w.Header().Add("Content-Type", "text/html")
 
 	responseWriter := util.GetResponseWriter(w, req)
+	
+	_, err := req.Cookie("goSessionId")
+	if err == nil {
+		vm.LoggedIn = true
+	} else {
+		vm.LoggedIn = false
+	}
+	
 	this.template.Execute(responseWriter, vm)
-
 	defer responseWriter.Close()
 }
