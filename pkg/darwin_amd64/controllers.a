@@ -1,7 +1,7 @@
 !<arch>
 __.PKGDEF       0           0     0     644     63061     `
 go object darwin amd64 go1.5.2 X:none
-build id "f5fbf2050fccf8d572192930b4e0516c73339562"
+build id "bb297a0d5595c4324a1f7d375a8ba27c826c101a"
 
 $$
 package controllers
