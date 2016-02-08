@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"log"
-	"fmt"
 )
 
 type Product struct {
@@ -96,8 +95,6 @@ func GetProduct(id int) (Product, error) {
 	db, err := getDBConnection()
 
 	product := Product{}
-	
-	println("++++", id)
 
 	if err == nil {
 		defer db.Close()
@@ -112,8 +109,6 @@ func GetProduct(id int) (Product, error) {
 		var price float32
 
 		err3 := productRows.Scan(&id, &imageurl, &name, &typ, &description, &price)
-
-		fmt.Println("^", name)
 
 		if err3 == nil {
 			product.SetId(id)
@@ -187,16 +182,9 @@ func InsertProduct(input Product) error {
 	if err == nil {
 		defer db.Close()
 
-		sqlObj := db.QueryRow(`INSERT INTO products (id, imageurl, name, typ, description, price) VALUES (DEFAULT, $1, $2, $3, $4, $5);`, input.ImageUrl(), input.Name(), input.Typ(), input.Description(), input.Price())
-		
-		errI := sqlObj.Scan()
-		if errI == nil {
-			return nil
-		} else {
-			println("error:", errI.Error())
-			return errI
-		}
+		db.QueryRow(`INSERT INTO products (id, imageurl, name, typ, description, price) VALUES (DEFAULT, $1, $2, $3, $4, $5);`, input.ImageUrl(), input.Name(), input.Typ(), input.Description(), input.Price())
 
+		return nil
 	} else {
 		return errors.New("Couldn't connect to the database")
 	}

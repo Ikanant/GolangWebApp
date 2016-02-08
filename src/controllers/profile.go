@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"strconv"
+	"log"
 )
 
 type profileController struct {
@@ -54,8 +55,6 @@ func (this *profileController) get(w http.ResponseWriter, req *http.Request) {
 			if fileErr == nil {
 				defer productImgFile.Close()
 
-				println(productName, productType, productDescription, productPrice)
-
 				_, fileErr := models.GetProductByName(productName)
 
 				if fileErr != nil {
@@ -78,21 +77,20 @@ func (this *profileController) get(w http.ResponseWriter, req *http.Request) {
 					price64, _ := strconv.ParseFloat(productPrice, 2)
 					price := float32(price64)
 					inputProduct.SetPrice(price)
-					println("=======", price)
 
 					insertErr := models.InsertProduct(inputProduct)
 
 					if insertErr == nil {
 						http.Redirect(w, req, "/home", http.StatusFound)
 					} else {
-						println(insertErr.Error())
+						log.Fatal(insertErr.Error())
 					}
 					
 				} else {
 					http.Redirect(w, req, "/home", http.StatusFound)
 				}
 			} else {
-				println(fileErr.Error())
+				log.Fatal(fileErr.Error())
 			}
 		}
 

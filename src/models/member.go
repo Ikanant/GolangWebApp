@@ -160,7 +160,6 @@ func RemoveSession (member_id string) bool{
 		nerr := db.QueryRow(`DELETE FROM session WHERE member_id = '$1';`, member_id);
 			
 		if nerr == nil {
-			println("Deleted cookie successful")
 			return true
 		}
 		return true

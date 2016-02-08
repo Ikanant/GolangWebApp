@@ -9,7 +9,6 @@ import (
 	"viewmodels"
 	"models"
 	"converter"
-	"fmt"
 )
 
 type productController struct {
@@ -44,8 +43,6 @@ func (this *productController) get(w http.ResponseWriter, req *http.Request) {
 
 				responseWriter := util.GetResponseWriter(w, req)
 				defer responseWriter.Close()
-				
-				fmt.Println(vm)
 				
 				this.template.Execute(responseWriter, vm)
 			} else {
