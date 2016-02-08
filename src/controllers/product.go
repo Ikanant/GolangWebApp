@@ -7,6 +7,9 @@ import (
 	"strconv"
 	"text/template"
 	"viewmodels"
+	"models"
+	"converter"
+	"fmt"
 )
 
 type productController struct {
@@ -15,25 +18,39 @@ type productController struct {
 }
 
 func (this *productController) get(w http.ResponseWriter, req *http.Request) {
-	_, er := req.Cookie("goSessionId")
+	ck, er := req.Cookie("goSessionId")
 
 	if er == nil {
 		vars := mux.Vars(req)
-
 		idRaw := vars["id"]
-
 		id, err := strconv.Atoi(idRaw)
 
-		if err == nil {
-			vm := viewmodels.GetProduct(id)
-			vm.LoggedIn = true
-			w.Header().Add("Content-Type", "text/html")
-
-			responseWriter := util.GetResponseWriter(w, req)
-			defer responseWriter.Close()
-			this.template.Execute(responseWriter, vm)
+		if req.Method == "POST" {
+			userId, _ := strconv.Atoi(ck.Value)
+			productId := id
+			
+			models.InsertOrder(userId, productId)
+			
+			http.Redirect(w, req, "/categories", http.StatusFound)
 		} else {
-			w.WriteHeader(404)
+			if err == nil {
+				vm := viewmodels.GetProductVM()
+				vm.LoggedIn = true
+				
+				modelProduct, _ := models.GetProduct(id)
+				vm.Product = converter.ConvertProductsToViewModel(modelProduct)
+				
+				w.Header().Add("Content-Type", "text/html")
+
+				responseWriter := util.GetResponseWriter(w, req)
+				defer responseWriter.Close()
+				
+				fmt.Println(vm)
+				
+				this.template.Execute(responseWriter, vm)
+			} else {
+				w.WriteHeader(404)
+			}
 		}
 	} else {
 		http.Redirect(w, req, "/home", http.StatusFound)

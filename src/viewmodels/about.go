@@ -22,7 +22,7 @@ func GetAbout() About {
 		Title:   "About me:",
 		Active:  "about",
 		Quote: "First solve the problem, then write the code",
-		Image: "7",
+		Image: "profilePic.jpg",
 		Summary: `As a software developer I want to work with problems that
 					will allow me grow as an engineer and also learn how to become a
 					successful leader in today’s tech world. Computer Science is no

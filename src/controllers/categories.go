@@ -38,6 +38,13 @@ func (this *categoriesController) get(w http.ResponseWriter, req *http.Request) 
 	}
 }
 
+
+
+
+
+
+
+
 type categoryController struct {
 	template *template.Template
 }
@@ -54,8 +61,16 @@ func (this *categoryController) get(w http.ResponseWriter, req *http.Request) {
 		id, err := strconv.Atoi(idRaw)
 	
 		if err == nil && id < 4 {
-			vm := viewmodels.GetProducts(id)
+			Products, _ := models.GetProductList(id)
+			productsVM := []viewmodels.Product{}
+
+			for _, modelProducts := range Products {
+				productsVM = append(productsVM, converter.ConvertProductsToViewModel(modelProducts))
+			}
+			
+			vm := viewmodels.GetProducts()
 			vm.LoggedIn = true
+			vm.Products = productsVM
 
 			w.Header().Add("Content-Type", "text/html")
 	

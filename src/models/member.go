@@ -61,6 +61,27 @@ func GetMember(email string, password string) (Member, error) {
 	}
 }
 
+func GetMemberById(id int) (Member, error) {
+	db, err := getDBConnection()
+	result := Member{}
+	
+	if err == nil {
+		defer db.Close()
+		
+		row := db.QueryRow(`SELECT id, email, first_name FROM member WHERE id = $1;`, id)
+		
+		err = row.Scan(&result.id, &result.email, &result.firstName)
+		
+		if err == nil {
+			return result, nil
+		} else {
+			return result, errors.New("Unable to find Member with info provided")
+		}
+	} else {
+		return result, errors.New("Couldn't connect to the database")
+	}
+}
+
 func InsertMember(firstName string, email string, password string) error{
 	db, err := getDBConnection()
 	

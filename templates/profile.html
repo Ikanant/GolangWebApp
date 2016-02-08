@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{template "_head.html" .Title}}
+
+<body>
+
+	{{template "_header.html" .}}
+
+	<div id="breadcrumb">
+		<div class="container">
+			<div class="breadcrumb">
+				<li><a href="/categories">Categories</a></li>
+				<li>{{.Title}}</li>
+			</div>
+		</div>
+	</div>
+
+	{{if eq .Member.Id 0}}
+		<form enctype="multipart/form-data" action="" method="POST" class="row services">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-2">
+						<h3>Upload Product</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-2">
+						<input type="text" name="name" autocomplete="off" class="form-control search_box"
+							placeholder="Product Name">
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-2" style="color: #000000">
+						<input type="radio" name="type" value="1" checked="checked" style="margin-right:5px;"> Movie
+						<input type="radio" name="type" value="2" style="margin-right: 5px; margin-left:15px;"> Show
+						<input type="radio" name="type" value="3" style="margin-right: 5px; margin-left:15px;"> Video Game
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-2">	
+						<input type="text" name="description" autocomplete="off" class="form-control search_box"
+							placeholder="Description">
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-2 col-sm-offset-2">	
+						<input type="text" name="price" autocomplete="off" class="form-control search_box"
+							placeholder="Price">
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-2">	
+						<input type="file" name="imageurl" class="form-control search_box">
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-2">
+						<button class="btn btn-primary btn-md" type="submit">Upload</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	{{else}}
+		<div class="aboutus">
+			<div class="container">
+				<h3 class="wow fadeInDown" data-wow-duration="800ms" data-wow-delay="200ms">Hello {{.Member.FirstName}}</h3>
+				<h4 class="wow fadeInDown" data-wow-duration="800ms" data-wow-delay="200ms">Order History: </h4>
+				<hr>
+				<div class="text-center">
+					<div class="col-md-12 wow fadeInDown" data-wow-duration="800ms" data-wow-delay="200ms">
+					<table class="table" style="color: #000000">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Price</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{{range .Products}}
+								<tr align="left" >
+									<td width="15%">{{.Name}}</td>
+									<td width="75%">{{.Description}}</td>
+									<td width="5%">{{.Price}}</td>
+									<td width="5%"><button class="btn btn-primary btn-md" style="padding: 4px 15px; display: block; margin:auto;">Remove</button></td>
+								</tr>
+							{{end}}
+						</tbody>
+					</table>
+				</div>
+				</div>
+			</div>
+		</div>
+	{{end}}
+
+	
+	{{template "_footer.html"}} {{template "_scripts.html"}}
+
+</body>
+</html>

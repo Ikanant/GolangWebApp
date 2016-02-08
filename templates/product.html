@@ -10,7 +10,7 @@
 	<div id="breadcrumb">
 		<div class="container">
 			<div class="breadcrumb">
-				<li><a href="/categories/{{.Type}}">Products</a></li>
+				<li><a href="/categories/{{.Product.Type}}">Products</a></li>
 				<li>{{.Product.Name}}</li>
 			</div>
 		</div>
@@ -22,9 +22,9 @@
 
 			<form action="" method="POST" class="row services">
 				<div class="col-md-2"></div>
-				
+
 				<div class="col-md-4">
-					<img src="/images/{{.Product.ImageUrl}}" class="img-responsive">
+					<img src="/images/products/{{.Product.ImageUrl}}" class="img-responsive">
 					<br>
 				</div>
 				<div class="col-md-4">
