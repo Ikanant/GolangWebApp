@@ -50,3 +50,18 @@ func GetMembersOrder(userId int) ([]int, error) {
 		return nil, errors.New("Couldn't connect to the database")
 	}
 }
+
+func RemoveOrder (userId int, productId int) error {
+	db, err := getDBConnection()
+
+	if err == nil {
+		defer db.Close()
+
+		db.QueryRow(`DELETE FROM orderHistory WHERE userid = $1 AND productid = $2;`, userId, productId);
+			
+		return nil
+		
+	} else {
+		return errors.New("Couldn't connect to the database")
+	}
+}

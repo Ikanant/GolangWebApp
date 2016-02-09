@@ -2,15 +2,15 @@ package controllers
 
 import (
 	"controllers/util"
-	"models"
-	"net/http"
-	"text/template"
-	"viewmodels"
 	"converter"
 	"io"
+	"log"
+	"models"
+	"net/http"
 	"os"
 	"strconv"
-	"log"
+	"text/template"
+	"viewmodels"
 )
 
 type profileController struct {
@@ -26,71 +26,82 @@ func (this *profileController) get(w http.ResponseWriter, req *http.Request) {
 	ck, err := req.Cookie("goSessionId")
 
 	if err == nil {
+		userId, _ := strconv.Atoi(ck.Value)
+		modelMember, _ := models.GetMemberById(userId)
+		vm.Member = converter.ConvertMemberlToViewModel(modelMember)
+
 		if req.Method == "GET" {
-			userId, _ := strconv.Atoi(ck.Value)
-			modelMember, _ := models.GetMemberById(userId)
-			vm.Member = converter.ConvertMemberlToViewModel(modelMember)
-			
 			var listOfProductIds []int
 			listOfProductIds, _ = models.GetMembersOrder(userId)
-			
+
 			var listOfProducts []viewmodels.Product
 			for _, val := range listOfProductIds {
 				pr, _ := models.GetProduct(val)
 				listOfProducts = append(listOfProducts, converter.ConvertProductsToViewModel(pr))
 			}
-			
+
 			vm.Products = listOfProducts
 			vm.LoggedIn = true
 
 		} else {
-			req.ParseMultipartForm(32 << 20)
-			productName := req.FormValue("name")
-			productType := req.FormValue("type")
-			productDescription := req.FormValue("description")
-			productPrice := req.FormValue("price")
-			
-			productImgFile, _, fileErr := req.FormFile("imageurl")
+			remButton := req.FormValue("remove")
+			remId, _ := strconv.Atoi(remButton)
 
-			if fileErr == nil {
-				defer productImgFile.Close()
+			if remButton == "" {
+				req.ParseMultipartForm(32 << 20)
+				productName := req.FormValue("name")
+				productType := req.FormValue("type")
+				productDescription := req.FormValue("description")
+				productPrice := req.FormValue("price")
 
-				_, fileErr := models.GetProductByName(productName)
+				productImgFile, _, fileErr := req.FormFile("imageurl")
 
-				if fileErr != nil {
-					futureId, _ := models.GetNumberOfProducts()
-					futureId++
+				if fileErr == nil {
+					defer productImgFile.Close()
 
-					futureIdStr := strconv.Itoa(futureId) + ".jpg"
-					f, _ := os.OpenFile("./public/images/products/"+futureIdStr, os.O_WRONLY|os.O_CREATE, 0666)
-					defer f.Close()
-					io.Copy(f, productImgFile)
-					
-					inputProduct := models.Product{}
-					inputProduct.SetName(productName)
-					inputProduct.SetImageUrl(futureIdStr)
-					inputProduct.SetDescription(productDescription)
-					
-					typ, _ := strconv.Atoi(productType)
-					inputProduct.SetTyp(typ)
-					
-					price64, _ := strconv.ParseFloat(productPrice, 2)
-					price := float32(price64)
-					inputProduct.SetPrice(price)
+					_, fileErr := models.GetProductByName(productName)
 
-					insertErr := models.InsertProduct(inputProduct)
+					if fileErr != nil {
+						futureId, _ := models.GetNumberOfProducts()
+						futureId++
 
-					if insertErr == nil {
-						http.Redirect(w, req, "/home", http.StatusFound)
+						futureIdStr := strconv.Itoa(futureId) + ".jpg"
+						f, _ := os.OpenFile("./public/images/products/"+futureIdStr, os.O_WRONLY|os.O_CREATE, 0666)
+						defer f.Close()
+						io.Copy(f, productImgFile)
+
+						inputProduct := models.Product{}
+						inputProduct.SetName(productName)
+						inputProduct.SetImageUrl(futureIdStr)
+						inputProduct.SetDescription(productDescription)
+
+						typ, _ := strconv.Atoi(productType)
+						inputProduct.SetTyp(typ)
+
+						price64, _ := strconv.ParseFloat(productPrice, 2)
+						price := float32(price64)
+						inputProduct.SetPrice(price)
+
+						insertErr := models.InsertProduct(inputProduct)
+
+						if insertErr == nil {
+							http.Redirect(w, req, "/home", http.StatusFound)
+						} else {
+							log.Fatal(insertErr.Error())
+						}
+
 					} else {
-						log.Fatal(insertErr.Error())
+						http.Redirect(w, req, "/home", http.StatusFound)
 					}
-					
 				} else {
-					http.Redirect(w, req, "/home", http.StatusFound)
+					log.Fatal(fileErr.Error())
 				}
 			} else {
-				log.Fatal(fileErr.Error())
+				deleteErr := models.RemoveOrder(userId, remId)
+				
+				if deleteErr == nil {
+					http.Redirect(w, req, "/profile", http.StatusFound)
+				}
 			}
 		}
 

@@ -74,26 +74,30 @@
 				<hr>
 				<div class="text-center">
 					<div class="col-md-12 wow fadeInDown" data-wow-duration="800ms" data-wow-delay="200ms">
-					<table class="table" style="color: #000000">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Description</th>
-								<th>Price</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{{range .Products}}
-								<tr align="left" >
-									<td width="15%">{{.Name}}</td>
-									<td width="75%">{{.Description}}</td>
-									<td width="5%">{{.Price}}</td>
-									<td width="5%"><button class="btn btn-primary btn-md" style="padding: 4px 15px; display: block; margin:auto;">Remove</button></td>
+					
+					
+						<table class="table" style="color: #000000">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Description</th>
+									<th>Price</th>
+									<th></th>
 								</tr>
-							{{end}}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<form action="" method="POST">
+								{{range .Products}}
+									<tr align="left" >
+										<td width="15%">{{.Name}}</td>
+										<td width="75%">{{.Description}}</td>
+										<td width="5%">{{.Price}}</td>
+										<td width="5%"><button name="remove" value="{{.Id}}" class="btn btn-primary btn-md" style="padding: 4px 15px; display: block; margin:auto;">Remove</button></td>
+									</tr>
+								{{end}}
+								</form>
+							</tbody>
+						</table>
 				</div>
 				</div>
 			</div>

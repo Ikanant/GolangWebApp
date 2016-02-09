@@ -157,7 +157,7 @@ func RemoveSession (member_id string) bool{
 	if err == nil {
 		defer db.Close()
 		
-		nerr := db.QueryRow(`DELETE FROM session WHERE member_id = '$1';`, member_id);
+		nerr := db.QueryRow(`DELETE FROM session WHERE member_id = $1;`, member_id);
 			
 		if nerr == nil {
 			return true
