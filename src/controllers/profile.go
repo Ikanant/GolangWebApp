@@ -3,11 +3,9 @@ package controllers
 import (
 	"controllers/util"
 	"converter"
-	"io"
 	"log"
 	"models"
 	"net/http"
-	"os"
 	"strconv"
 	"text/template"
 	"viewmodels"
@@ -48,53 +46,37 @@ func (this *profileController) get(w http.ResponseWriter, req *http.Request) {
 			remId, _ := strconv.Atoi(remButton)
 
 			if remButton == "" {
-				req.ParseMultipartForm(32 << 20)
 				productName := req.FormValue("name")
 				productType := req.FormValue("type")
 				productDescription := req.FormValue("description")
 				productPrice := req.FormValue("price")
+				productImgUrl := req.FormValue("imageurl")
 
-				productImgFile, _, fileErr := req.FormFile("imageurl")
+				_, fileErr := models.GetProductByName(productName)
 
-				if fileErr == nil {
-					defer productImgFile.Close()
+				if fileErr != nil {
+					inputProduct := models.Product{}
+					inputProduct.SetName(productName)
+					inputProduct.SetDescription(productDescription)
+					inputProduct.SetImageUrl(productImgUrl)
 
-					_, fileErr := models.GetProductByName(productName)
+					typ, _ := strconv.Atoi(productType)
+					inputProduct.SetTyp(typ)
 
-					if fileErr != nil {
-						futureId, _ := models.GetNumberOfProducts()
-						futureId++
+					price64, _ := strconv.ParseFloat(productPrice, 2)
+					price := float32(price64)
+					inputProduct.SetPrice(price)
 
-						futureIdStr := strconv.Itoa(futureId) + ".jpg"
-						f, _ := os.OpenFile("./public/images/products/"+futureIdStr, os.O_WRONLY|os.O_CREATE, 0666)
-						defer f.Close()
-						io.Copy(f, productImgFile)
+					insertErr := models.InsertProduct(inputProduct)
 
-						inputProduct := models.Product{}
-						inputProduct.SetName(productName)
-						inputProduct.SetImageUrl(futureIdStr)
-						inputProduct.SetDescription(productDescription)
-
-						typ, _ := strconv.Atoi(productType)
-						inputProduct.SetTyp(typ)
-
-						price64, _ := strconv.ParseFloat(productPrice, 2)
-						price := float32(price64)
-						inputProduct.SetPrice(price)
-
-						insertErr := models.InsertProduct(inputProduct)
-
-						if insertErr == nil {
-							http.Redirect(w, req, "/home", http.StatusFound)
-						} else {
-							log.Fatal(insertErr.Error())
-						}
-
+					if insertErr == nil {
+						http.Redirect(w, req, "/profile", http.StatusFound)
 					} else {
-						http.Redirect(w, req, "/home", http.StatusFound)
+						log.Fatal(insertErr.Error())
 					}
+
 				} else {
-					log.Fatal(fileErr.Error())
+					http.Redirect(w, req, "/home", http.StatusFound)
 				}
 			} else {
 				deleteErr := models.RemoveOrder(userId, remId)

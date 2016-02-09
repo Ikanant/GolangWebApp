@@ -24,7 +24,7 @@
 				{{range .Products}}
 					<a href="/product/{{.Id}}">
 					<div class="col-md-4 wow fadeInDown" data-wow-duration="800ms" data-wow-delay="200ms">
-						<img src="/images/products/{{.ImageUrl}}" alt="">
+						<img src="{{.ImageUrl}}" height="300" width="300" alt="">
 						<h4 style="margin-bottom: 10px;">{{.Name}}</h4>
 						<p>${{.Price}}</p>
 					</div>
