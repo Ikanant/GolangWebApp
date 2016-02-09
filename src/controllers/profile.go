@@ -17,13 +17,14 @@ type profileController struct {
 
 func (this *profileController) get(w http.ResponseWriter, req *http.Request) {
 	vm := viewmodels.GetProfile()
-	vm.LoggedIn = true
 
 	responseWriter := util.GetResponseWriter(w, req)
 
 	ck, err := req.Cookie("goSessionId")
 
 	if err == nil {
+		vm.LoggedIn = true
+		
 		userId, _ := strconv.Atoi(ck.Value)
 		modelMember, _ := models.GetMemberById(userId)
 		vm.Member = converter.ConvertMemberlToViewModel(modelMember)
@@ -88,7 +89,7 @@ func (this *profileController) get(w http.ResponseWriter, req *http.Request) {
 		}
 
 	} else {
-		vm.LoggedIn = false
+		http.Redirect(w, req, "/login", http.StatusFound)
 	}
 
 	w.Header().Add("Content-Type", "text/html")
